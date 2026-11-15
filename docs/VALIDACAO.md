@@ -45,3 +45,11 @@ Reexecutados 53 testes de API e 31 de navegador. Capturas da versão reformulada
 inspecionadas em desktop (1440 px) e celular (390 px); também verificada largura
 820 px, sem overflow nas três resoluções. Testada a adaptação dos padrões antigos
 de apresentação, preservando valores personalizados e sem gravar no JSON privado.
+
+## Carrinho flutuante e adição direta
+
+Botão fixo inferior com contador; adição no card sem abrir detalhes ou interromper
+as compras. Variações selecionáveis no próprio card. Foto mantém acesso aos detalhes.
+Reexecutados 53 testes de API e 31 de navegador. Verificação adicional em Chromium
+mobile: adição repetida, variação obrigatória, produto indisponível bloqueado,
+abertura dos detalhes pela foto, abertura do carrinho e persistência após reload.

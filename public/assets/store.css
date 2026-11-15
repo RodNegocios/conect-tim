@@ -1598,3 +1598,63 @@ footer {
     margin-bottom: 35px;
   }
 }
+/* Always within reach, without interrupting catalog browsing. */
+.floating-cart {
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  right: 24px;
+  z-index: 8;
+  display: flex;
+  gap: 12px;
+  min-height: 56px;
+  padding: 14px 20px;
+  border-radius: 40px;
+  background: #293025;
+  color: white;
+  box-shadow: 0 6px 24px #0003;
+}
+.floating-cart:hover {
+  background: #3b4634;
+}
+.floating-cart > span {
+  display: inline;
+}
+body:has(dialog[open]) .floating-cart {
+  visibility: hidden;
+}
+body:not(.admin-body) {
+  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+}
+.toast {
+  bottom: calc(94px + env(safe-area-inset-bottom, 0px));
+}
+.quick-add {
+  width: 100%;
+  margin-top: 14px;
+  min-height: 44px;
+  padding: 11px 12px;
+  background: #ee5826;
+  color: white;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.quick-add:hover:not(:disabled) {
+  background: #c74014;
+}
+.quick-variation {
+  margin-top: 10px;
+  font-size: 11px;
+}
+.quick-variation select {
+  font-size: 12px;
+  padding: 10px 6px;
+}
+@media (max-width: 700px) {
+  .floating-cart {
+    right: 18px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    padding: 12px 18px;
+  }
+}
