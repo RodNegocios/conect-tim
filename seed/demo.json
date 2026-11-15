@@ -3,9 +3,9 @@
   "settings": {
     "name": "Connect Cell",
     "tagline": "Tecnologia que conecta.",
-    "heroTitle": "Seu próximo movimento começa aqui.",
-    "heroText": "Explore nossa seleção de mobilidade elétrica. Escolha o seu estilo e converse com quem entende.",
-    "about": "Da assistência técnica ao seu próximo acessório: a Connect Cell conecta você à tecnologia em Comodoro. Conheça também nossos serviços de gravação a laser e impressão 3D.",
+    "heroTitle": "Sua próxima conexão está aqui.",
+    "heroText": "",
+    "about": "Tecnologia, acessórios e assistência técnica. Perto de você.",
     "address": "Avenida Prefeito Valdir Masutti, 531N, Centro, Comodoro – MT. CEP 78310-000.",
     "hours": "Segunda a sexta, 07h30 às 18h00. Sábado, 07h30 às 12h00. Domingo fechado.",
     "phone": "(65) 3283-1015",
@@ -14,7 +14,7 @@
     "facebook": "",
     "campaign": "",
     "logo": "/assets/logo.webp",
-    "heroImage": "/assets/scooter-branca.webp",
+    "heroImage": "/assets/loja.webp",
     "aboutImage": "/assets/loja.webp"
   },
   "categories": [

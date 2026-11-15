@@ -1,3 +1,4 @@
+import { presentationSettings } from "./presentation.js";
 import { money } from "./cart.js";
 const $ = (s) => document.querySelector(s),
   esc = (s) =>
@@ -76,7 +77,7 @@ function render() {
         .join("")
     : '<div class="empty"><h3>Nenhum produto encontrado.</h3><p>Cadastre seu primeiro produto ou altere a busca.</p></div>';
   $("#categories-input").value = store.categories.join("\n");
-  for (const [k, v] of Object.entries(store.settings)) {
+  for (const [k, v] of Object.entries(presentationSettings(store.settings))) {
     const el = $("#settings-form").elements.namedItem(k);
     if (el) el.value = v;
   }

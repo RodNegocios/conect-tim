@@ -1,3 +1,4 @@
+import { presentationSettings } from "./presentation.js";
 import { money, keyOf, normalize, resolveCart } from "./cart.js";
 const $ = (s) => document.querySelector(s);
 const esc = (s) =>
@@ -54,7 +55,7 @@ function setText(selector, text) {
   $(selector).textContent = text;
 }
 function applySettings() {
-  const s = catalog.settings;
+  const s = presentationSettings(catalog.settings);
   document.title = s.name + " — " + s.tagline;
   document
     .querySelectorAll("[data-store-name]")
@@ -65,13 +66,17 @@ function applySettings() {
   });
   setText("#hero-title", s.heroTitle);
   setText("#hero-text", s.heroText);
+  $("#hero-text").hidden = !s.heroText;
   setText("#about-text", s.about);
   setText("#address", s.address);
   setText("#hours", s.hours);
   setText("#phone", s.phone);
   $("#phone").href = "tel:" + s.phone.replace(/[^+\d]/g, "");
-  $("#hero-image").src = s.heroImage || "/assets/scooter-branca.webp";
-  $("#hero-image").alt = s.heroTitle;
+  $("#hero-image").src = s.heroImage || "/assets/loja.webp";
+  $("#hero-image").alt =
+    s.heroImage === "/assets/loja.webp"
+      ? "Fachada da Connect Cell com três iPhones em exposição"
+      : s.heroTitle;
   $("#about-image").src = s.aboutImage || "/assets/loja.webp";
   $("#map-link").href =
     "https://www.google.com/maps/search/?api=1&query=" +
@@ -123,14 +128,14 @@ function renderProducts() {
   );
   setText(
     "#results",
-    `${rows.length} ${rows.length === 1 ? "produto" : "produtos"} para explorar`,
+    `${rows.length} ${rows.length === 1 ? "produto" : "produtos"}`,
   );
   $("#demo-note").hidden = !rows.some((p) => p.demo);
   $("#products").innerHTML = rows.length
     ? rows
         .map(
           (p) =>
-            `<article class="product-card"><button class="product-photo" data-product="${esc(p.id)}" aria-label="Ver ${esc(p.name)}"><span class="badge">${p.demo ? "Demonstração" : p.salePrice != null ? "Preço especial" : p.featured ? "Em destaque" : esc(p.category)}</span>${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" width="500" height="500">` : '<span class="no-image">Imagem em breve</span>'}<span class="photo-arrow">${arrow}</span></button><div class="product-info"><p class="eyebrow">${esc(p.category)}</p><button class="product-name" data-product="${esc(p.id)}">${esc(p.name)}</button><div class="product-pricing"><div>${p.salePrice != null ? `<del>${money(p.price)}</del>` : ""}<strong>${money(p.salePrice ?? p.price)}</strong><small>${p.available ? "Confirme com nossa equipe" : "Indisponível no momento"}</small></div><button class="add-icon" data-product="${esc(p.id)}" aria-label="Selecionar ${esc(p.name)}">+</button></div></div></article>`,
+            `<article class="product-card"><button class="product-photo" data-product="${esc(p.id)}" aria-label="Ver ${esc(p.name)}"><span class="badge">${p.demo ? "Demonstração" : p.salePrice != null ? "Preço especial" : p.featured ? "Em destaque" : esc(p.category)}</span>${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" width="500" height="500">` : '<span class="no-image">Imagem em breve</span>'}<span class="photo-arrow">${arrow}</span></button><div class="product-info"><button class="product-name" data-product="${esc(p.id)}">${esc(p.name)}</button><div class="product-pricing"><div>${p.salePrice != null ? `<del>${money(p.price)}</del>` : ""}<strong>${money(p.salePrice ?? p.price)}</strong>${p.available ? "" : "<small>Indisponível</small>"}</div><button class="add-icon" data-product="${esc(p.id)}" aria-label="Selecionar ${esc(p.name)}">Ver</button></div></div></article>`,
         )
         .join("")
     : '<div class="empty"><h3>Nenhum produto por aqui.</h3><p>Tente outra busca ou explore as outras categorias.</p><button id="reset-filters" class="button">Ver todo o catálogo</button></div>';
@@ -144,7 +149,7 @@ function openProduct(id) {
   activeProduct = p;
   const images = [p.image, ...p.gallery].filter(Boolean);
   $("#product-detail").innerHTML =
-    `<div class="detail-media">${images.length ? `<img id="detail-main" src="${esc(images[0])}" alt="${esc(p.name)}"><div class="thumbnails">${images.map((src, i) => `<button data-image="${esc(src)}" aria-label="Ver foto ${i + 1}"><img src="${esc(src)}" alt=""></button>`).join("")}</div>` : "<p>Imagem em breve</p>"}</div><div class="detail-copy"><p class="eyebrow">${esc(p.category)}</p><h2 id="product-title">${esc(p.name)}</h2>${p.demo ? '<p class="demo-tag">Produto demonstrativo</p>' : ""}<p class="description">${esc(p.description)}</p><div class="detail-price">${p.salePrice != null ? `<del>${money(p.price)}</del>` : ""}<strong>${money(p.salePrice ?? p.price)}</strong></div><form id="add-form">${p.variations.map((v, i) => `<label>${esc(v.name)}<select name="variation-${i}" required><option value="">Selecione uma opção</option>${v.options.map((o) => `<option>${esc(o)}</option>`).join("")}</select></label>`).join("")}<label>Quantidade<input name="quantity" type="number" min="1" max="99" value="1" required></label><button class="button" ${!p.available ? "disabled" : ""}>${p.available ? "Adicionar à seleção" : "Indisponível"} ${arrow}</button></form><p class="fineprint">Finalização pelo WhatsApp. Confirme os detalhes com a nossa equipe.</p><a class="text-link" href="?produto=${encodeURIComponent(p.id)}">Link deste produto ${arrow}</a></div>`;
+    `<div class="detail-media">${images.length ? `<img id="detail-main" src="${esc(images[0])}" alt="${esc(p.name)}"><div class="thumbnails">${images.map((src, i) => `<button data-image="${esc(src)}" aria-label="Ver foto ${i + 1}"><img src="${esc(src)}" alt=""></button>`).join("")}</div>` : "<p>Imagem em breve</p>"}</div><div class="detail-copy"><p class="eyebrow">${esc(p.category)}</p><h2 id="product-title">${esc(p.name)}</h2>${p.demo ? '<p class="demo-tag">Produto demonstrativo</p>' : ""}<p class="description">${esc(p.description)}</p><div class="detail-price">${p.salePrice != null ? `<del>${money(p.price)}</del>` : ""}<strong>${money(p.salePrice ?? p.price)}</strong></div><form id="add-form">${p.variations.map((v, i) => `<label>${esc(v.name)}<select name="variation-${i}" required><option value="">Selecione uma opção</option>${v.options.map((o) => `<option>${esc(o)}</option>`).join("")}</select></label>`).join("")}<label>Quantidade<input name="quantity" type="number" min="1" max="99" value="1" required></label><button class="button" ${!p.available ? "disabled" : ""}>${p.available ? "Adicionar ao carrinho" : "Indisponível"} ${arrow}</button></form><p class="fineprint">Finalização pelo WhatsApp. Confirme os detalhes com a nossa equipe.</p><a class="text-link" href="?produto=${encodeURIComponent(p.id)}">Link deste produto ${arrow}</a></div>`;
   if (!$("#product-dialog").open) $("#product-dialog").showModal();
 }
 function renderCart() {

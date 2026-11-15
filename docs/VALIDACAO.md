@@ -36,3 +36,12 @@ corretamente e os caminhos privados retornaram 403. O index.php da raiz foi exec
 com PHP. O pacote foi inspecionado para confirmar a ausência de dados privados.
 A publicação na conta Hostinger continua dependendo do deploy do Git/ZIP no hPanel;
 sem logs ou acesso à conta, não se confirma o resultado no domínio real.
+
+## Reformulação visual
+
+Hero com a fachada e os três iPhones, título curto e ações Ver produtos/WhatsApp.
+Catálogo com imagens maiores e menos legendas; serviços e contato mais compactos.
+Reexecutados 53 testes de API e 31 de navegador. Capturas da versão reformulada
+inspecionadas em desktop (1440 px) e celular (390 px); também verificada largura
+820 px, sem overflow nas três resoluções. Testada a adaptação dos padrões antigos
+de apresentação, preservando valores personalizados e sem gravar no JSON privado.
