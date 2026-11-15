@@ -25,3 +25,14 @@ Capturas inspecionadas da loja em **1440 × 1000**, **820 × 1180** e **390 × 8
 - Não houve envio de mensagens nem confirmação de que o número informado no briefing recebe WhatsApp. O responsável deve confirmar o número no painel.
 - Não houve teste de carga ou auditoria de segurança externa. Não se afirma segurança absoluta.
 - Fotografias e nomes fornecidos não confirmam modelo técnico, preço ou estoque. Os dados iniciais continuam explicitamente demonstrativos e sem preços inventados.
+
+## Correção de instalação pela raiz do Git
+
+Adicionada entrada index.php e .htaccess na raiz para publicação direta em public_html.
+Pacote ZIP passou a manter public/ e os arquivos da raiz, sem criar outra public_html.
+Reexecutados: 53 testes de API, 31 de navegador, 3 unitários e 19 verificações Apache
+(9 anteriores e 10 para publicação pela raiz). As rotas públicas foram encaminhadas
+corretamente e os caminhos privados retornaram 403. O index.php da raiz foi executado
+com PHP. O pacote foi inspecionado para confirmar a ausência de dados privados.
+A publicação na conta Hostinger continua dependendo do deploy do Git/ZIP no hPanel;
+sem logs ou acesso à conta, não se confirma o resultado no domínio real.

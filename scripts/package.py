@@ -11,8 +11,8 @@ with ZipFile(output,'w',ZIP_DEFLATED) as z:
             if not file.is_file() or file.is_symlink():continue
             rel=file.relative_to(root)
             if folder=='public' and rel.parts[1]=='uploads' and file.name!='.htaccess':continue
-            target=Path('public_html',*rel.parts[1:]) if folder=='public' else rel
+            target=rel
             z.write(file,str(target))
-    for name in ['config.example.php','README.md','docs/VALIDACAO.md']:
+    for name in ['index.php','.htaccess','config.example.php','README.md','docs/VALIDACAO.md']:
         z.write(root/name,name)
 print(output)

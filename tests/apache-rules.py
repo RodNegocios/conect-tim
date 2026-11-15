@@ -35,4 +35,26 @@ with tempfile.TemporaryDirectory(prefix='connect-apache-') as td:
             print('PASS Apache: HTTP redirects to HTTPS')
         else:raise AssertionError('HTTP did not redirect')
         print('PASS: 9 Apache rule checks, TLS certificate explicitly trusted')
+        # Now reproduce Git deployment: repository root IS public_html.
+        inner=public/'public';inner.mkdir()
+        (inner/'assets').mkdir();(inner/'api').mkdir();(inner/'admin').mkdir()
+        (inner/'uploads').mkdir()
+        shutil.copy(root/'.htaccess',public/'.htaccess')
+        shutil.copy(root/'public/.htaccess',inner/'.htaccess')
+        shutil.copy(root/'public/uploads/.htaccess',inner/'uploads/.htaccess')
+        (inner/'assets/logo.webp').write_bytes((root/'public/assets/logo.webp').read_bytes())
+        (inner/'api/probe.txt').write_text('api route')
+        (inner/'admin/probe.txt').write_text('admin route')
+        (inner/'uploads/probe.PHP').write_text('must stay private')
+        for name in ['app','storage','seed','.git']:
+            (public/name).mkdir();(public/name/'private.txt').write_text('private')
+        (public/'config.local.php').write_text('private configuration')
+        for url,expected in [('/assets/logo.webp',200),('/api/probe.txt',200),('/admin/probe.txt',200),('/app/private.txt',403),('/storage/private.txt',403),('/seed/private.txt',403),('/.git/private.txt',403),('/config.local.php',403),('/public/assets/logo.webp',200),('/uploads/probe.PHP',403)]:
+            try:r=urllib.request.urlopen('https://localhost:18443'+url,context=context)
+            except urllib.error.HTTPError as e:r=e
+            assert r.code==expected,(url,r.code)
+            if url=='/api/probe.txt':assert r.read()==b'api route'
+            if url=='/admin/probe.txt':assert r.read()==b'admin route'
+            print('PASS root deployment:',url,expected)
+
     finally:p.terminate();p.wait()

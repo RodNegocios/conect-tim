@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 const ROOT = __DIR__ . '/..';
-$config = ['environment' => getenv('CONNECT_ENV') ?: 'production', 'installation_key' => '', 'data_dir' => ROOT . '/storage', 'session_timeout' => 1800];
+$config = ['environment' => getenv('CONNECT_ENV') ?: 'production', 'installation_key' => '', 'data_dir' => is_dir(ROOT . '/storage') ? ROOT . '/storage' : dirname(realpath(ROOT)) . '/connect-cell-private-' . substr(hash('sha256', realpath(ROOT)), 0, 12), 'session_timeout' => 1800];
 $configFile = getenv('CONNECT_CONFIG_FILE') ?: ROOT . '/config.local.php';
 if (is_file($configFile)) $config = array_replace($config, require $configFile);
 $config['public_dir'] ??= is_dir(ROOT . '/public_html') ? ROOT . '/public_html' : ROOT . '/public';

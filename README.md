@@ -16,38 +16,44 @@ Os quatro produtos iniciais são **demonstrativos**, identificados na vitrine, n
 - `upload_max_filesize = 5M`, `post_max_size = 6M`, `memory_limit = 256M`. O arquivo `.user.ini` contém essas opções; confira os limites efetivos no hPanel.
 - Sem Composer, MySQL, processo Node.js, serviços pagos ou tarefas agendadas obrigatórias.
 
-## Instalação na Hostinger
+## Instalação na Hostinger (Git ou ZIP)
 
-1. Gere o pacote com `python3 scripts/package.py`. O ZIP em `dist/` contém `public_html/`, `app/`, `seed/`, `config.example.php` e esta documentação. Não contém dados de clientes, senhas ou uploads administrativos.
-2. Extraia **no diretório do domínio que contém `public_html`**, não dentro de `public_html`. A estrutura deve ser:
+A raiz do repositório agora pode ser publicada diretamente em `public_html`.
+O `index.php` da raiz e o `.htaccess` encaminham vitrine, assets, API e painel
+para `public/`. As pastas privadas e configurações são bloqueadas por regras Apache.
 
-   ```text
-   dominio/
-   ├── app/
-   ├── seed/
-   ├── config.example.php
-   ├── config.local.php       # criado por você; nunca no Git
-   ├── storage/               # criado pela aplicação; privado
-   └── public_html/
-       ├── index.php
-       ├── .htaccess
-       ├── .user.ini
-       ├── admin/
-       ├── api/
-       ├── assets/
-       └── uploads/.htaccess
-   ```
+1. Configure o deploy Git da branch `main` para `public_html`, ou gere o ZIP com
+   `python3 scripts/package.py` e extraia **dentro de `public_html`**.
+   Não coloque os arquivos em uma segunda pasta `public_html/public_html`.
+2. Preserve o `.htaccess` da raiz e os arquivos `public/.htaccess`,
+   `public/.user.ini` e `public/uploads/.htaccess`. Habilite PHP 8.1+ com GD/WebP,
+   mbstring e fileinfo e SSL no hPanel. A publicação precisa aceitar regras
+   `mod_rewrite` e `Require all denied` (Apache/LiteSpeed).
+3. Copie `config.example.php` para `config.local.php` na raiz da instalação.
+   Defina uma chave privada de pelo menos 32 caracteres, gerada, por exemplo, com
+   `php -r 'echo bin2hex(random_bytes(32)), PHP_EOL;'`.
+   Mantenha `environment` como `production`.
+4. O exemplo usa uma pasta privada ao lado de `public_html`, com nome único
+   por instalação. Dê ao usuário PHP permissão para criá-la/gravar nela. Se já
+   houver catálogo em `storage/`, preserve esse diretório e mantenha seu
+   `data_dir` atual: não crie outro catálogo por cima dos dados reais.
+5. Acesse `/admin/`, informe a chave e crie sua senha (mínimo 12 caracteres).
+   Depois da instalação, a chave pode ser removida da configuração.
+6. Confira WhatsApp, identidade e produtos no painel antes de divulgar.
 
-3. Copie `config.example.php` para `config.local.php`, mantendo `environment` como `production`. Defina uma **chave de instalação privada**, aleatória, com pelo menos 32 caracteres. Pode gerar no terminal com `php -r 'echo bin2hex(random_bytes(32)), PHP_EOL;'`. Não compartilhe a chave em mensagens nem a adicione ao repositório.
-4. Mantenha `data_dir` fora da pasta pública. O padrão é `storage/`, ao lado de `app/`. O PHP precisa poder criar/gravar essa pasta e os uploads. Use permissões restritas e propriedade correta; não use `777`. A aplicação rejeita `data_dir` dentro da pasta pública.
-5. Ative SSL e o redirecionamento HTTPS no hPanel. A aplicação também recusa HTTP em produção e envia HSTS. Ela não confia em um cabeçalho `X-Forwarded-Proto` fornecido pelo cliente.
-6. Acesse `https://seu-dominio/admin/`, informe a chave de instalação e crie uma senha com pelo menos 12 caracteres. A senha será armazenada como hash. A criação só funciona uma vez; depois, apenas login é permitido. Pode limpar a chave de `config.local.php` após instalar.
-7. Em **Identidade & contato**, confira o WhatsApp com país e DDD, somente números. Ajuste marca, banner, apresentação, redes sociais, endereço e horários. Salve.
-8. Em **Produtos**, remova os demonstrativos e cadastre os produtos reais. Confira a vitrine e faça uma consulta de teste pelo WhatsApp antes de divulgar.
+A estrutura esperada dentro de `public_html` é `index.php`, `.htaccess`,
+`config.local.php`, `app/`, `seed/` e `public/`. Não mova individualmente os
+arquivos de `public/` nem altere seus caminhos relativos. O ZIP contém somente
+código e dados demonstrativos, sem senhas, dados de produção ou uploads.
 
-Se o provedor não permitir arquivos fora de `public_html`, solicite a configuração adequada ao suporte. **Não publique a raiz inteira do repositório na web**. Esta versão exige separação física dos dados privados e não oferece um modo menos protegido.
+O formato anterior também continua suportado: `app/` e `seed/` ao lado de
+`public_html/`, com o conteúdo de `public/` dentro de `public_html/`. Para esse
+formato use os arquivos públicos, não a nova entrada da raiz. Não misture as
+duas estruturas numa mesma instalação.
 
-O pacote utiliza o nome `public_html`. Em desenvolvimento, a pasta pública chama-se `public`. Para outro nome, defina `public_dir` em `config.local.php` com o caminho absoluto da pasta pública. A instalação é na raiz do domínio, não em um subdiretório de URL.
+Depois de atualizar, teste `/`, `/admin/`, `/api/index.php?action=catalog` e
+as imagens. `/app/bootstrap.php`, `/config.local.php`, `/storage/store.json` e
+`/.git/config` devem retornar 403/404, nunca conteúdo privado.
 
 ## Uso do painel
 
