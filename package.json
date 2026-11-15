@@ -1,0 +1,17 @@
+{
+  "name": "connect-cell-catalog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ferramentas de teste apenas. Produção funciona com PHP, sem Node.js.",
+  "scripts": {
+    "test": "python3 tests/run.py",
+    "test:cart": "node --test tests/cart.test.js",
+    "test:apache": "python3 tests/apache-rules.py",
+    "format": "prettier --write public/assets/*.js public/assets/*.css tests/*.js tests/*.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "prettier": "3.10.1"
+  }
+}

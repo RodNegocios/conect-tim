@@ -1,0 +1,93 @@
+{
+  "revision": 1,
+  "settings": {
+    "name": "Connect Cell",
+    "tagline": "Tecnologia que conecta.",
+    "heroTitle": "Seu próximo movimento começa aqui.",
+    "heroText": "Explore nossa seleção de mobilidade elétrica. Escolha o seu estilo e converse com quem entende.",
+    "about": "Da assistência técnica ao seu próximo acessório: a Connect Cell conecta você à tecnologia em Comodoro. Conheça também nossos serviços de gravação a laser e impressão 3D.",
+    "address": "Avenida Prefeito Valdir Masutti, 531N, Centro, Comodoro – MT. CEP 78310-000.",
+    "hours": "Segunda a sexta, 07h30 às 18h00. Sábado, 07h30 às 12h00. Domingo fechado.",
+    "phone": "(65) 3283-1015",
+    "whatsapp": "556596437427",
+    "instagram": "https://www.instagram.com/connectcell_cdo/",
+    "facebook": "",
+    "campaign": "",
+    "logo": "/assets/logo.webp",
+    "heroImage": "/assets/scooter-branca.webp",
+    "aboutImage": "/assets/loja.webp"
+  },
+  "categories": [
+    "Mobilidade elétrica",
+    "Acessórios",
+    "Xiaomi",
+    "Tereré",
+    "Tabacaria"
+  ],
+  "products": [
+    {
+      "id": "demo-1",
+      "name": "Scooter branca com detalhes laranja",
+      "description": "Produto demonstrativo baseado na imagem fornecida pela loja. Modelo, especificações, preço e disponibilidade precisam ser confirmados com a equipe.",
+      "price": null,
+      "salePrice": null,
+      "category": "Mobilidade elétrica",
+      "image": "/assets/scooter-branca.webp",
+      "gallery": [],
+      "variations": [],
+      "featured": true,
+      "available": true,
+      "active": true,
+      "demo": true,
+      "order": 0
+    },
+    {
+      "id": "demo-2",
+      "name": "Scooter cinza com farol LED",
+      "description": "Produto demonstrativo baseado na imagem fornecida pela loja. Modelo, especificações, preço e disponibilidade precisam ser confirmados com a equipe.",
+      "price": null,
+      "salePrice": null,
+      "category": "Mobilidade elétrica",
+      "image": "/assets/scooter-cinza.webp",
+      "gallery": [],
+      "variations": [],
+      "featured": true,
+      "available": true,
+      "active": true,
+      "demo": true,
+      "order": 1
+    },
+    {
+      "id": "demo-3",
+      "name": "Patinete elétrico vermelho e preto",
+      "description": "Produto demonstrativo baseado na imagem fornecida pela loja. Modelo, especificações, preço e disponibilidade precisam ser confirmados com a equipe.",
+      "price": null,
+      "salePrice": null,
+      "category": "Mobilidade elétrica",
+      "image": "/assets/scooter-vermelha.webp",
+      "gallery": [],
+      "variations": [],
+      "featured": false,
+      "available": true,
+      "active": true,
+      "demo": true,
+      "order": 2
+    },
+    {
+      "id": "demo-4",
+      "name": "Scooter com cesto frontal",
+      "description": "Produto demonstrativo baseado na imagem fornecida pela loja. Modelo, especificações, preço e disponibilidade precisam ser confirmados com a equipe.",
+      "price": null,
+      "salePrice": null,
+      "category": "Mobilidade elétrica",
+      "image": "/assets/scooter-cesto.webp",
+      "gallery": [],
+      "variations": [],
+      "featured": false,
+      "available": true,
+      "active": true,
+      "demo": true,
+      "order": 3
+    }
+  ]
+}

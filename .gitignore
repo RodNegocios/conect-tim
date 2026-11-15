@@ -1,0 +1,9 @@
+/config.local.php
+/storage/
+/public/uploads/*
+!/public/uploads/.htaccess
+/node_modules/
+/test-results/
+*.log
+
+/dist/
