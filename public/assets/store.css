@@ -1522,7 +1522,7 @@ body {
 .showroom-piece img { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; }
 .showroom-piece span { display: block; margin-top: 12px; font-size: 13px; font-weight: 600; text-wrap: balance; }
 .showroom-piece:hover span { color: var(--link); }
-.showroom-banner { max-height: 480px; object-fit: contain; border-radius: 28px; }
+.showroom-banner { margin: 28px auto 0; max-height: 480px; object-fit: contain; border-radius: 28px; }
 .catalog-band, .detail-media, .service, .contact { background: var(--mist); }
 .catalog, .services { padding-block: clamp(44px, 6vw, 90px); border: 0; }
 .section-heading h2, .services .section-heading h2, .about h2, .contact h2 {

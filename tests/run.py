@@ -115,6 +115,22 @@ with tempfile.TemporaryDirectory(prefix='connect-tests-') as tmp:
         status,res,_=req('login',{'password':password});token=res['csrf'];check(status==200,'Login with configured password')
         child_env={**os.environ,'TEST_BASE':BASE,'TEST_PASSWORD':password,'TEST_DATA':str(data)}
         subprocess.run(['node',str(ROOT/'tests/browser.cjs')],env=child_env,cwd=ROOT,check=True)
+        # Simulate an installation upgrading from a pre-iPhone catalog.
+        legacy = json.loads((ROOT/'seed/demo.json').read_text())
+        legacy['revision'] = 42
+        legacy['products'].pop(0)
+        legacy['settings']['campaign'] = 'Campanha local'
+        custom = {**legacy['products'][0], 'id':'local-phone', 'name':'iPhone 17', 'price':100000, 'active':False}
+        legacy['products'].append(custom)
+        (data/'store.json').write_text(json.dumps(legacy))
+        upgraded = req('store')[1]
+        check(upgraded['revision'] == 43 and upgraded['settings'] == legacy['settings']
+              and upgraded['products'] == legacy['products'] + [p for p in upgraded['products'] if p['id'] in ('iphone-14','iphone-15')]
+              and len(upgraded['products']) == len(legacy['products']) + 2,
+              'Upgrade preserves catalog edits and adds only missing iPhones')
+        check(mutate('product-delete', id='iphone-14')[0] == 200
+              and not any(p['id'] == 'iphone-14' for p in req('catalog')[1]['products']),
+              'Deleting an imported phone is permanent across catalog reads')
         check(req('password',{'current':'wrong','password':secrets.token_urlsafe(24)})[0]==403,'Password change requires current password')
         check(req('password',{'current':password,'password':secrets.token_urlsafe(24)})[0]==200,'Password change persists a new secure hash')
         check(req('store')[0]==200,'Current session remains valid after password change')

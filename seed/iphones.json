@@ -1,0 +1,50 @@
+[
+  {
+    "id": "iphone-14",
+    "name": "iPhone 14",
+    "description": "Apple iPhone 14. Imagem ilustrativa. Consulte a loja para confirmar cores, armazenamento e disponibilidade.",
+    "price": null,
+    "salePrice": null,
+    "category": "iPhone",
+    "image": "/assets/iphone-14.webp",
+    "gallery": [],
+    "variations": [],
+    "featured": true,
+    "available": true,
+    "active": true,
+    "demo": false,
+    "order": -3
+  },
+  {
+    "id": "iphone-15",
+    "name": "iPhone 15",
+    "description": "Apple iPhone 15. Imagem ilustrativa. Consulte a loja para confirmar cores, armazenamento e disponibilidade.",
+    "price": null,
+    "salePrice": null,
+    "category": "iPhone",
+    "image": "/assets/iphone-15.webp",
+    "gallery": [],
+    "variations": [],
+    "featured": true,
+    "available": true,
+    "active": true,
+    "demo": false,
+    "order": -2
+  },
+  {
+    "id": "iphone-17",
+    "name": "iPhone 17",
+    "description": "Apple iPhone 17. Imagem ilustrativa. Consulte a loja para confirmar cores, armazenamento e disponibilidade.",
+    "price": null,
+    "salePrice": null,
+    "category": "iPhone",
+    "image": "/assets/iphone-17.webp",
+    "gallery": [],
+    "variations": [],
+    "featured": true,
+    "available": true,
+    "active": true,
+    "demo": false,
+    "order": -1
+  }
+]

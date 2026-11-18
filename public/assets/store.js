@@ -65,19 +65,18 @@ function renderShowroom(settings) {
     }
     return;
   }
-  if (settings.heroImage && settings.heroImage !== "/assets/loja.webp") {
-    const banner = new Image();
-    banner.src = settings.heroImage;
-    banner.alt = settings.heroTitle;
-    banner.className = "showroom-banner";
-    media.replaceChildren(banner);
-    media.hidden = false;
-    return;
+  const banner = $("#custom-showroom-banner");
+  if (banner) {
+    banner.hidden = !settings.heroImage || settings.heroImage === "/assets/loja.webp";
+    if (!banner.hidden) {
+      banner.src = settings.heroImage;
+      banner.alt = settings.heroTitle;
+    }
   }
 
   const selection = catalog.products
     .filter((product) => product.image)
-    .sort((a, b) => Number(b.featured) - Number(a.featured))
+    .sort((a, b) => Number(b.featured) - Number(a.featured) || a.order - b.order)
     .slice(0, 3);
   media.hidden = selection.length === 0;
   media.innerHTML = selection.map((product) => `

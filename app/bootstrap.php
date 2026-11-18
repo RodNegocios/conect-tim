@@ -41,6 +41,7 @@ function writeData(string $name, callable $change, array $default = []): array {
     $temp = null;
     try {
         $old = readData($name, $default); $next = $change($old);
+        if ($name === 'store' && $old === $next && is_file($dir . '/store.json')) return $next;
         $json = json_encode($next, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $file = $dir . '/' . $name . '.json';
         if ($name === 'store' && is_file($file)) {
@@ -59,10 +60,37 @@ function writeData(string $name, callable $change, array $default = []): array {
 }
 function store(): array {
     global $config;
-    if (!is_file($config['data_dir'] . '/store.json')) {
-        return writeData('store', fn($d) => $d ?: json_decode(file_get_contents(ROOT . '/seed/demo.json'), true, 64, JSON_THROW_ON_ERROR));
-    }
-    return readData('store');
+    $file = $config['data_dir'] . '/store.json';
+    $existing = readData('store');
+    if (($existing['catalogVersion'] ?? 0) >= 1) return $existing;
+
+    return writeData('store', function(array $data) use ($file): array {
+        // Recheck under the write lock in case another request completed the upgrade.
+        if (($data['catalogVersion'] ?? 0) >= 1) return $data;
+        $installed = is_file($file);
+        if (!$installed) {
+            $data = json_decode(file_get_contents(ROOT . '/seed/demo.json'), true, 64, JSON_THROW_ON_ERROR);
+        }
+        if (!is_array($data['products'] ?? null) || !is_array($data['categories'] ?? null) || !is_int($data['revision'] ?? null)) {
+            fail('Catálogo inválido. Restaure um backup verificado.', 503);
+        }
+
+        $phones = json_decode(file_get_contents(ROOT . '/seed/iphones.json'), true, 64, JSON_THROW_ON_ERROR);
+        $ids = array_column($data['products'], 'id');
+        $names = array_map('mb_strtolower', array_column($data['products'], 'name'));
+        foreach ($phones as $phone) {
+            if (in_array($phone['id'], $ids, true) || in_array(mb_strtolower($phone['name']), $names, true)) continue;
+            if (count($data['products']) >= 1000) break;
+            if (!in_array($phone['category'], $data['categories'], true)) {
+                if (count($data['categories']) >= 40) break;
+                $data['categories'][] = $phone['category'];
+            }
+            $data['products'][] = $phone;
+        }
+        $data['catalogVersion'] = 1;
+        if ($installed) $data['revision']++;
+        return $data;
+    });
 }
 function sessionStart(): void {
     global $secure, $config;

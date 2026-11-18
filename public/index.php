@@ -19,6 +19,7 @@
     </div>
     <img class="showroom-storefront" src="/assets/loja.webp" alt="Fachada laranja da Connect Cell em Comodoro, com smartphones em exposição" width="1025" height="1025" fetchpriority="high">
   </div>
+  <img id="custom-showroom-banner" class="showroom-banner" alt="" hidden>
   <div id="showroom-media" class="showroom-media" hidden></div>
 </section>
 <div class="catalog-band">

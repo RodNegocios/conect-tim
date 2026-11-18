@@ -32,7 +32,7 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
     await page.locator("#auth-submit").click();
     await page.waitForSelector("#new-product");
     check(
-      (await page.locator("#admin-products .admin-product").count()) === 4,
+      (await page.locator("#admin-products .admin-product").count()) === 7,
       "Administrator login opens protected panel",
     );
     await page.locator("#new-product").click();
@@ -82,7 +82,7 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
     await form.locator("button.button").click();
     await page.waitForFunction(() => !document.querySelector("#editor").open);
     check(
-      (await page.locator(".admin-product").count()) === 5,
+      (await page.locator(".admin-product").count()) === 8,
       "Product saved from panel",
     );
     let row = page
@@ -154,9 +154,24 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
       "Campaign updated without redeploy",
     );
     check(
-      (await page.locator(".product-card").count()) === 5,
+      (await page.locator(".product-card").count()) === 8,
       "Dynamic storefront catalog",
     );
+    const highlights = page.locator("#showroom-media .showroom-piece");
+    check(
+      (await highlights.allTextContents()).map((label) => label.trim()).join(",") === "iPhone 14,iPhone 15,iPhone 17",
+      "Home features the three iPhone models in order",
+    );
+    for (const model of ["iPhone 14", "iPhone 15", "iPhone 17"]) {
+      const highlight = highlights.filter({ hasText: model });
+      await highlight.locator("img").evaluate((image) => image.decode());
+      await highlight.click();
+      check(
+        await page.locator("#product-dialog[open] #product-title").textContent() === model,
+        model + " image loads and opens matching product",
+      );
+      await page.getByRole("button", { name: "Fechar detalhes" }).click();
+    }
     await page.locator("#search").fill("inexistente");
     check(
       (await page.locator("#products .empty").count()) === 1,
@@ -327,7 +342,7 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
       .filter({ hasText: "Produto de teste" });
     await row.locator("[data-delete]").click();
     await page.waitForFunction(
-      () => document.querySelectorAll(".admin-product").length === 4,
+      () => document.querySelectorAll(".admin-product").length === 7,
     );
     check(true, "Product deletion through panel");
     await page.locator("[data-tab=settings]").click();

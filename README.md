@@ -6,7 +6,9 @@ Loja em PHP 8.1+, HTML, CSS e JavaScript, sem banco de dados e sem dependências
 
 As informações comerciais vêm de `informações` e das seis imagens originais, preservadas na raiz. As versões WebP em `public/assets/` reduzem os cerca de 9 MB originais para aproximadamente 440 KB, sem alterar as características dos produtos.
 
-Os quatro produtos iniciais são **demonstrativos**, identificados na vitrine, no detalhe e na mensagem de WhatsApp. Não existem preços ou especificações técnicas confirmados no material recebido: os preços ficam vazios (**Sob consulta**). O telefone `556596437427` foi transcrito do briefing, sem acrescentar dígitos. Confirme o número e a disponibilidade dos produtos antes de divulgar a loja. Não foram inventadas avaliações ou promoções.
+Os quatro produtos de mobilidade são **demonstrativos**, identificados na vitrine, no detalhe e na mensagem de WhatsApp. Não existem preços ou especificações técnicas confirmados no material recebido: os preços ficam vazios (**Sob consulta**). O telefone `556596437427` foi transcrito do briefing, sem acrescentar dígitos. Confirme o número e a disponibilidade dos produtos antes de divulgar a loja. Não foram inventadas avaliações ou promoções.
+
+Os iPhones 14, 15 e 17 aparecem em destaque, com imagens ilustrativas e preço sob consulta. A atualização inclui os modelos uma única vez em catálogos existentes, respeitando os limites do painel e preservando produtos já cadastrados com o mesmo nome ou identificador. Depois, a loja pode editar, ocultar ou excluir cada modelo pelo painel.
 
 ## Requisitos na Hostinger
 
