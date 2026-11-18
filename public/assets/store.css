@@ -1521,7 +1521,18 @@ body {
 .showroom-piece:nth-child(2), .showroom-piece:only-child { flex-basis: 34%; }
 .showroom-piece img { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; }
 .showroom-piece span { display: block; margin-top: 12px; font-size: 13px; font-weight: 600; text-wrap: balance; }
-.showroom-piece:hover span { color: var(--link); }
+.showroom-piece:is(:hover, :focus-visible) span { color: var(--link); }
+@media (prefers-reduced-motion: no-preference) {
+  .showroom-piece img { transition: transform 200ms ease-out; }
+  .showroom-piece:focus-visible img { transform: scale(1.045); }
+  .showroom-piece:is(:active, .touch-pressed) img {
+    transform: scale(1.025);
+    transition-duration: 80ms;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .showroom-piece:hover:not(:active) img { transform: scale(1.045); }
+}
 .showroom-banner { margin: 28px auto 0; max-height: 480px; object-fit: contain; border-radius: 28px; }
 .catalog-band, .detail-media, .service, .contact { background: var(--mist); }
 .catalog, .services { padding-block: clamp(44px, 6vw, 90px); border: 0; }

@@ -252,6 +252,13 @@ $("#filters").addEventListener("click", (e) => {
 });
 $("#search").addEventListener("input", renderProducts);
 $("#sort").addEventListener("change", renderProducts);
+for (const type of ["pointerdown", "pointerup", "pointercancel", "lostpointercapture"]) {
+  $("#showroom-media")?.addEventListener(type, (event) => {
+    if (event.pointerType === "touch" && event.isPrimary) {
+      event.target.closest(".showroom-piece")?.classList.toggle("touch-pressed", type === "pointerdown");
+    }
+  });
+}
 document.addEventListener("click", (e) => {
   const add = e.target.closest("[data-add]");
   if (add) {
