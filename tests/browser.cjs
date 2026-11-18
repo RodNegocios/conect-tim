@@ -264,6 +264,15 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
         ),
         "No horizontal overflow: " + name,
       );
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+      const storefront = page.locator(".showroom-storefront");
+      await storefront.evaluate((image) => image.decode());
+      const photo = await storefront.boundingBox();
+      check(
+        (await storefront.getAttribute("src")) === "/assets/loja.webp" &&
+          photo && photo.width > 0 && photo.height > 0 && photo.y < height,
+        "Storefront photo visible in hero: " + name,
+      );
       await page.locator('header nav a[href="#catalogo"]').click();
       await page.waitForFunction(
         () =>
@@ -273,6 +282,15 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
       check(
         (await page.locator("#catalogo").boundingBox()).y < height,
         "Catalog navigation: " + name,
+      );
+      const cartButton = page.locator("#open-cart");
+      const cartBounds = await cartButton.boundingBox();
+      const bottomGap = height - cartBounds.y - cartBounds.height;
+      check(
+        (await cartButton.evaluate((button) => getComputedStyle(button).position)) === "fixed" &&
+          Math.abs(cartBounds.x + cartBounds.width / 2 - width / 2) <= 1 &&
+          bottomGap >= 0 && bottomGap <= 32,
+        "Cart fixed at bottom center after navigation: " + name,
       );
       await page.screenshot({
         path: path.join(

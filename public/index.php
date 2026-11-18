@@ -7,14 +7,17 @@
 <header class="header wrap"><a href="/" class="brand" aria-label="Página inicial"><img data-logo src="/assets/logo.webp" alt="Logo Connect Cell" width="48" height="48"><span><strong data-store-name>Connect Cell</strong></span></a><nav aria-label="Navegação principal"><a href="#catalogo">Catálogo</a><a href="#servicos">Serviços</a><a href="#sobre">A Connect</a></nav></header>
 <main>
 <section class="showroom wrap" aria-labelledby="hero-title">
-  <div class="showroom-intro">
-    <p class="showroom-kicker">Tecnologia e mobilidade</p>
-    <h1 id="hero-title">Sua próxima conexão está aqui.</h1>
-    <p id="hero-text" hidden></p>
-    <div class="showroom-links">
-      <a class="button" href="#catalogo">Ver produtos <?=icon('arrow')?></a>
-      <a class="contact-link" data-contact href="#contato">Falar com a loja <?=icon('chat')?></a>
+  <div class="showroom-feature">
+    <div class="showroom-intro">
+      <p class="showroom-kicker">Tecnologia e mobilidade</p>
+      <h1 id="hero-title">Sua próxima conexão está aqui.</h1>
+      <p id="hero-text" hidden></p>
+      <div class="showroom-links">
+        <a class="button" href="#catalogo">Ver produtos <?=icon('arrow')?></a>
+        <a class="contact-link" data-contact href="#contato">Falar com a loja <?=icon('chat')?></a>
+      </div>
     </div>
+    <img class="showroom-storefront" src="/assets/loja.webp" alt="Fachada laranja da Connect Cell em Comodoro, com smartphones em exposição" width="1025" height="1025" fetchpriority="high">
   </div>
   <div id="showroom-media" class="showroom-media" hidden></div>
 </section>

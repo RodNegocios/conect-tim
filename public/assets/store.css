@@ -1390,7 +1390,8 @@ footer {
 .floating-cart {
   position: fixed;
   bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  right: 24px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 8;
   display: flex;
   gap: 12px;
@@ -1442,7 +1443,6 @@ body:not(.admin-body) {
 }
 @media (max-width: 700px) {
   .floating-cart {
-    right: 18px;
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     padding: 12px 18px;
   }
@@ -1462,21 +1462,36 @@ body {
 .header .brand strong { font-size: 19px; letter-spacing: -.65px; }
 .header nav { font-size: 13px; }
 .header nav a:hover, .contact-link, .text-link, .service b { color: var(--link); }
-.showroom { padding-block: clamp(40px, 5vw, 76px) 40px; }
-.showroom-intro { text-align: center; }
+.showroom { padding-block: clamp(20px, 3vw, 44px) 40px; }
+.showroom-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #faf5f1;
+}
+.showroom-intro { padding: clamp(24px, 4vw, 64px); }
+.showroom-storefront {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1.18;
+  object-fit: cover;
+  object-position: center 24%;
+}
 .showroom-kicker { color: var(--slate); font-size: 17px; font-weight: 600; }
 .showroom h1 {
   max-width: 15em;
-  margin: 8px auto 0;
-  font-size: clamp(42px, 6vw, 80px);
+  margin: 10px 0 0;
+  font-size: clamp(40px, 5vw, 76px);
   line-height: 1.05;
   letter-spacing: -.035em;
   font-weight: 600;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
-#hero-text { margin: 16px auto 0; max-width: 54ch; color: var(--slate); }
-.showroom-links { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 22px; }
+#hero-text { margin: 16px 0 0; max-width: 54ch; color: var(--slate); }
+.showroom-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 22px; }
 .contact-link { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; }
 .contact-link, .text-link, .service b { text-decoration: underline; text-underline-offset: 0.22em; }
 .contact-link svg, .button svg { width: 16px; height: 16px; }
@@ -1494,8 +1509,8 @@ body {
   justify-content: center;
   align-items: end;
   gap: clamp(8px, 3vw, 48px);
-  max-width: 1080px;
-  margin: 38px auto 0;
+  max-width: 800px;
+  margin: clamp(24px, 3vw, 40px) auto 0;
 }
 .showroom-piece {
   min-width: 0;
@@ -1525,7 +1540,7 @@ body {
   color: var(--link);
   font-weight: 600;
 }
-.floating-cart { min-height: 44px; padding: 10px 16px; box-shadow: none; }
+.floating-cart { min-height: 44px; padding: 10px 16px; box-shadow: 0 4px 16px rgb(24 24 27 / 16%); }
 .floating-cart b { background: var(--action); }
 .product-grid { gap: clamp(12px, 1.5vw, 24px); }
 .product-card { background: white; border-radius: 28px; overflow: hidden; display: flex; flex-direction: column; }
@@ -1575,6 +1590,9 @@ dialog { background: white; color: var(--ink); box-shadow: none; }
   .header .brand strong { font-size: 16px; }
   .header .brand img { width: 26px; height: 26px; }
   .showroom { padding-bottom: 28px; }
+  .showroom-feature { grid-template-columns: minmax(0, 1fr); border-radius: 22px; }
+  .showroom-intro { padding: 26px 20px; }
+  .showroom-storefront { height: auto; aspect-ratio: 1.4; }
   .showroom-kicker { font-size: 14px; }
   .showroom-media { flex-wrap: wrap; gap: 12px; margin-top: 24px; align-items: flex-start; }
   .showroom-piece { flex-basis: calc(33.33% - 8px); }
