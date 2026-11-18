@@ -54,6 +54,30 @@ async function api(action, data) {
 function setText(selector, text) {
   $(selector).textContent = text;
 }
+function renderShowroom(settings) {
+  const media = $("#showroom-media");
+  if (settings.heroImage && settings.heroImage !== "/assets/loja.webp") {
+    const banner = new Image();
+    banner.src = settings.heroImage;
+    banner.alt = settings.heroTitle;
+    banner.className = "showroom-banner";
+    media.replaceChildren(banner);
+    media.hidden = false;
+    return;
+  }
+
+  const selection = catalog.products
+    .filter((product) => product.image)
+    .sort((a, b) => Number(b.featured) - Number(a.featured))
+    .slice(0, 3);
+  media.hidden = selection.length === 0;
+  media.innerHTML = selection.map((product) => `
+    <button class="showroom-piece" data-product="${esc(product.id)}" aria-label="Ver detalhes de ${esc(product.name)}">
+      <img src="${esc(product.image)}" alt="" width="400" height="400">
+      <span>${esc(product.name)}</span>
+      ${product.demo ? "<small>Demonstração</small>" : ""}
+    </button>`).join("");
+}
 function applySettings() {
   const s = presentationSettings(catalog.settings);
   document.title = s.name + " — " + s.tagline;
@@ -72,11 +96,7 @@ function applySettings() {
   setText("#hours", s.hours);
   setText("#phone", s.phone);
   $("#phone").href = "tel:" + s.phone.replace(/[^+\d]/g, "");
-  $("#hero-image").src = s.heroImage || "/assets/loja.webp";
-  $("#hero-image").alt =
-    s.heroImage === "/assets/loja.webp"
-      ? "Fachada da Connect Cell com três iPhones em exposição"
-      : s.heroTitle;
+  renderShowroom(s);
   $("#about-image").src = s.aboutImage || "/assets/loja.webp";
   $("#map-link").href =
     "https://www.google.com/maps/search/?api=1&query=" +
