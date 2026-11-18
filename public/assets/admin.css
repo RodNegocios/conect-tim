@@ -67,8 +67,9 @@
   font-size: 12px;
 }
 .admin-nav button.active {
-  background: var(--ink);
-  color: white;
+  background: var(--accent-surface);
+  color: var(--link);
+  font-weight: 600;
 }
 .admin-nav button:hover:not(.active) {
   background: var(--accent-surface);
@@ -245,7 +246,7 @@
 .checks input {
   width: auto;
   margin: 0;
-  accent-color: var(--action);
+  accent-color: var(--link);
 }
 .editor-actions {
   display: flex;
