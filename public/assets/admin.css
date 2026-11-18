@@ -1,9 +1,9 @@
 .admin-body {
-  background: #f5f5ef;
+  background: var(--mist);
 }
 .admin-header {
   background: white;
-  border-bottom: 1px solid #dfe2d7;
+  border-bottom: 1px solid var(--line);
   padding: 20px 35px;
   display: flex;
   justify-content: space-between;
@@ -30,7 +30,7 @@
   margin: 70px auto;
   padding: 35px;
   background: white;
-  border: 1px solid #e3e5da;
+  border: 1px solid var(--line);
 }
 .login-card h1 {
   font-size: 36px;
@@ -39,7 +39,7 @@
 }
 .login-card > p:not(.eyebrow) {
   font-size: 12px;
-  color: #747b68;
+  color: var(--slate);
 }
 .login-card form {
   display: grid;
@@ -58,7 +58,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-right: 1px solid #dfe2d7;
+  border-right: 1px solid var(--line);
 }
 .admin-nav button {
   text-align: left;
@@ -67,15 +67,15 @@
   font-size: 12px;
 }
 .admin-nav button.active {
-  background: #2d3528;
+  background: var(--ink);
   color: white;
 }
 .admin-nav button:hover:not(.active) {
-  background: #e8ebdf;
+  background: var(--accent-surface);
 }
 .admin-nav #logout {
   margin-top: 30px;
-  color: #a83d1c;
+  color: var(--error);
 }
 .admin-main {
   padding: 45px;
@@ -90,12 +90,12 @@
   margin-bottom: 25px;
 }
 .admin-main .eyebrow {
-  color: #a74723;
+  color: var(--link);
 }
 #product-count,
 .help {
   font-size: 13px;
-  color: #727b63;
+  color: var(--slate);
 }
 .help {
   margin: 15px 0 25px;
@@ -109,7 +109,7 @@
 }
 .admin-toolbar input {
   padding: 12px;
-  border: 1px solid #d1d5c6;
+  border: 1px solid var(--control-line);
   background: white;
   border-radius: 3px;
   max-width: 70%;
@@ -119,14 +119,14 @@
   font-size: 11px;
   text-decoration: underline;
   padding: 10px 0;
-  color: #5f6852;
+  color: var(--slate);
 }
 .admin-product {
   display: flex;
   align-items: center;
   gap: 18px;
   background: white;
-  border: 1px solid #e2e5d9;
+  border: 1px solid var(--line);
   margin-bottom: 9px;
   padding: 16px;
 }
@@ -147,7 +147,7 @@
 }
 .admin-product p {
   font-size: 11px;
-  color: #747c68;
+  color: var(--slate);
   margin-top: 6px;
 }
 .admin-product .row-actions {
@@ -159,14 +159,14 @@
   text-decoration: underline;
 }
 .row-actions .danger {
-  color: #b0391a;
+  color: var(--error);
 }
 .status-pill {
   font-size: 9px;
   border-radius: 20px;
   display: inline-block;
   padding: 4px 8px;
-  background: #f0f2e9;
+  background: var(--mist);
   margin-left: 7px;
 }
 .form-grid {
@@ -180,7 +180,7 @@
 }
 .form-grid small {
   font-size: 10px;
-  color: #737b65;
+  color: var(--slate);
   display: block;
   line-height: 1.6;
   margin-top: 7px;
@@ -189,14 +189,14 @@
   width: 120px;
   height: 120px;
   object-fit: contain;
-  background: #eee;
+  background: var(--mist);
   margin-top: 10px;
 }
 .upload-button {
   display: inline-block;
   padding: 9px 13px;
-  background: #e9ede0;
-  border: 1px solid #d6dccc;
+  background: var(--accent-surface);
+  border: 1px solid var(--line);
   border-radius: 3px;
   cursor: pointer;
   font-size: 11px;
@@ -218,7 +218,7 @@
 }
 .image-field input[readonly] {
   font-size: 10px;
-  color: #7c826f;
+  color: var(--slate);
 }
 .editor {
   width: 750px;
@@ -245,7 +245,7 @@
 .checks input {
   width: auto;
   margin: 0;
-  accent-color: #ed5826;
+  accent-color: var(--action);
 }
 .editor-actions {
   display: flex;
@@ -266,7 +266,7 @@
   height: 90px;
   object-fit: contain;
   background: white;
-  border: 1px solid #ddd;
+  border: 1px solid var(--line);
 }
 .gallery-item button {
   font-size: 10px;
@@ -276,7 +276,7 @@
 .security-card {
   background: white;
   padding: 25px;
-  border: 1px solid #e0e3d6;
+  border: 1px solid var(--line);
   margin-top: 25px;
   display: grid;
   gap: 20px;
@@ -287,7 +287,7 @@
 }
 .security-card p {
   font-size: 12px;
-  color: #717a64;
+  color: var(--slate);
 }
 .security-card .button {
   justify-self: start;
@@ -302,7 +302,7 @@
   display: none;
 }
 #admin-error:not(:empty) {
-  background: #fbe8df;
+  background: var(--accent-surface);
   padding: 15px;
   margin-bottom: 20px;
   white-space: pre-line;
@@ -313,7 +313,7 @@
   }
   .admin-nav {
     border-right: 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--line);
     flex-direction: row;
     overflow-x: auto;
     padding: 10px 18px;
