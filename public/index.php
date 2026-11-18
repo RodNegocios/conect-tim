@@ -1,7 +1,7 @@
-<?php require __DIR__.'/../app/bootstrap.php'; require ROOT.'/app/view.php'; ?>
+<?php require __DIR__.'/../app/bootstrap.php'; require ROOT.'/app/view.php'; header('Cache-Control: no-cache'); ?>
 <!doctype html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Conheça a Connect Cell em Comodoro: tecnologia, acessórios, mobilidade e assistência técnica. Monte sua seleção e fale com a loja pelo WhatsApp."><meta name="theme-color" content="#ffffff"><title>Connect Cell — Tecnologia que conecta</title><link rel="icon" href="/assets/logo.webp"><link rel="stylesheet" href="/assets/store.css"><script type="module" src="/assets/store.js"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Conheça a Connect Cell em Comodoro: tecnologia, acessórios, mobilidade e assistência técnica. Monte sua seleção e fale com a loja pelo WhatsApp."><meta name="theme-color" content="#ffffff"><title>Connect Cell — Tecnologia que conecta</title><link rel="icon" href="/assets/logo.webp"><link rel="stylesheet" href="<?=assetUrl('store.css')?>"><script type="module" src="<?=assetUrl('store.js')?>"></script></head>
 <body>
 <a class="skip" href="#catalogo">Ir para o catálogo</a>
 <header class="header wrap"><a href="/" class="brand" aria-label="Página inicial"><img data-logo src="/assets/logo.webp" alt="Logo Connect Cell" width="48" height="48"><span><strong data-store-name>Connect Cell</strong></span></a><nav aria-label="Navegação principal"><a href="#catalogo">Catálogo</a><a href="#servicos">Serviços</a><a href="#sobre">A Connect</a></nav></header>

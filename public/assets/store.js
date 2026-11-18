@@ -56,6 +56,15 @@ function setText(selector, text) {
 }
 function renderShowroom(settings) {
   const media = $("#showroom-media");
+  // A cached page from before the gallery has a single banner instead.
+  if (!media) {
+    const banner = $("#hero-image");
+    if (banner) {
+      banner.src = settings.heroImage || "/assets/loja.webp";
+      banner.alt = settings.heroTitle;
+    }
+    return;
+  }
   if (settings.heroImage && settings.heroImage !== "/assets/loja.webp") {
     const banner = new Image();
     banner.src = settings.heroImage;
