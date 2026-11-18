@@ -84,7 +84,6 @@ function renderShowroom(settings) {
     <button class="showroom-piece" data-product="${esc(product.id)}" aria-label="Ver detalhes de ${esc(product.name)}">
       <img src="${esc(product.image)}" alt="" width="400" height="400">
       <span>${esc(product.name)}</span>
-      ${product.demo ? "<small>Demonstração</small>" : ""}
     </button>`).join("");
 }
 function applySettings() {
