@@ -6,8 +6,8 @@
 <a class="skip" href="#catalogo">Ir para o catálogo</a>
 <header class="header wrap"><a href="/" class="brand" aria-label="Página inicial"><img data-logo src="/assets/logo.webp" alt="Logo Connect Cell" width="48" height="48"><span><strong data-store-name>Connect Cell</strong></span></a><nav aria-label="Navegação principal"><a href="#catalogo">Catálogo</a><a href="#servicos">Serviços</a><a href="#sobre">A Connect</a></nav></header>
 <main>
-<section class="showroom wrap" aria-labelledby="hero-title">
-  <div class="showroom-feature">
+<section class="showroom" aria-labelledby="hero-title">
+  <div class="showroom-feature wrap">
     <div class="showroom-intro">
       <p class="showroom-kicker">Tecnologia e mobilidade</p>
       <h1 id="hero-title">Sua próxima conexão está aqui.</h1>
@@ -20,7 +20,15 @@
     <img class="showroom-storefront" src="/assets/loja.webp" alt="Fachada laranja da Connect Cell em Comodoro, com smartphones em exposição" width="1025" height="1025" fetchpriority="high">
   </div>
   <img id="custom-showroom-banner" class="showroom-banner" alt="" hidden>
-  <div id="showroom-media" class="showroom-media" hidden></div>
+  <div class="showroom-gallery" hidden>
+    <svg class="showroom-ribbon" aria-hidden="true" focusable="false">
+      <g>
+        <path id="showroom-wave" fill="none"/>
+        <text dy=".35em"><textPath href="#showroom-wave"><?=str_repeat('BLACK FRIDAY　·　', 38)?></textPath></text>
+      </g>
+    </svg>
+    <div id="showroom-media" class="showroom-media wrap" hidden></div>
+  </div>
 </section>
 <div class="catalog-band">
 <section class="catalog wrap" id="catalogo" aria-labelledby="catalog-title"><div class="section-heading"><div><h2 id="catalog-title">Explore o catálogo.</h2></div></div><p id="campaign" class="campaign" hidden></p><div class="catalog-tools"><div class="filters" id="filters" aria-label="Categorias"></div><label class="search"><?=icon('search')?><input id="search" type="search" placeholder="Buscar produto" aria-label="Pesquisar produtos"></label></div><div class="catalog-meta"><p id="results" aria-live="polite">Carregando catálogo…</p><label>Ordenar <select id="sort" aria-label="Ordenar produtos"><option value="featured">Destaques</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option><option value="name">Nome A–Z</option></select></label></div><div id="products" class="product-grid"></div><p class="demo-note" id="demo-note" hidden>Produtos demonstrativos. Consulte valores e disponibilidade.</p></section>

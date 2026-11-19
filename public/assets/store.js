@@ -84,6 +84,8 @@ function renderShowroom(settings) {
     .sort((a, b) => Number(b.featured) - Number(a.featured) || a.order - b.order)
     .slice(0, 3);
   media.hidden = selection.length === 0;
+  const gallery = media.closest(".showroom-gallery");
+  if (gallery) gallery.hidden = media.hidden;
   media.innerHTML = selection.map((product) => {
     const seal = blackFridaySeal(product);
     return `
@@ -94,6 +96,46 @@ function renderShowroom(settings) {
     </button>`;
   }).join("");
 }
+// Fit the wave in CSS pixels so the lettering keeps its proportions on narrow screens.
+function setupShowroomRibbon() {
+  const ribbon = $(".showroom-ribbon");
+  if (!ribbon || !window.ResizeObserver || !window.IntersectionObserver) return;
+  const wave = ribbon.querySelector("path");
+  const lettering = ribbon.querySelector("textPath");
+  const group = ribbon.querySelector("g");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  let visible = false;
+  let frame = 0;
+
+  function draw() {
+    frame = 0;
+    const bounds = ribbon.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (innerHeight - bounds.top) / (innerHeight + bounds.height)));
+    const phase = reduced.matches ? 0 : progress - 0.5;
+    group.setAttribute("transform", `translate(${phase * bounds.width * 0.09} 0)`);
+    lettering.setAttribute("startOffset", String(25 - phase * 128));
+  }
+  function schedule() {
+    if (visible && !reduced.matches && !frame) frame = requestAnimationFrame(draw);
+  }
+  function fit() {
+    const {width: w, height: h} = ribbon.getBoundingClientRect();
+    if (!w || !h) return;
+    wave.setAttribute("d", `M ${-w * .22} ${h * .98}
+      C ${w * .02} ${h * .98}, ${w * .08} ${h * .15}, ${w * .29} ${h * .15}
+      S ${w * .49} ${h * .83}, ${w * .69} ${h * .83}
+      S ${w * .97} ${h * .14}, ${w * 1.22} ${h * .14}`);
+    draw();
+  }
+  new ResizeObserver(fit).observe(ribbon);
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    schedule();
+  }).observe(ribbon);
+  window.addEventListener("scroll", schedule, {passive: true});
+  reduced.addEventListener("change", draw);
+}
+setupShowroomRibbon();
 function applySettings() {
   const s = presentationSettings(catalog.settings);
   document.title = s.name + " — " + s.tagline;

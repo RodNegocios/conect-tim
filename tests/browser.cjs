@@ -167,6 +167,19 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
         (await page.locator(".product-card > .offer-seal").count()) === 4,
       "Available featured iPhones and the discounted test product carry Black Friday seals",
     );
+    const ribbon = page.locator(".showroom-ribbon");
+    const ribbonOffset = () => ribbon.locator("textPath").getAttribute("startOffset");
+    await page.waitForSelector("#showroom-wave[d]", { state: "attached" });
+    const initialOffset = await ribbonOffset();
+    await page.evaluate(() => window.scrollBy({ top: 180, behavior: "instant" }));
+    await page.waitForFunction((before) =>
+      document.querySelector(".showroom-ribbon textPath").getAttribute("startOffset") !== before, initialOffset);
+    check(Number(await ribbonOffset()) < Number(initialOffset), "Ribbon lettering tracks downward scroll");
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await page.waitForFunction((before) =>
+      document.querySelector(".showroom-ribbon textPath").getAttribute("startOffset") === before, initialOffset);
+    check(await page.locator(".showroom-links .button, .offer-seal").evaluateAll((elements) =>
+      elements.every((el) => getComputedStyle(el).backgroundImage === "none")), "Flat orange offer seals and hero button");
     for (const model of ["iPhone 14", "iPhone 15", "iPhone 17"]) {
       const highlight = highlights.filter({ hasText: model });
       await highlight.locator("img").evaluate((image) => image.decode());
@@ -327,6 +340,12 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
       });
     }
     await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.waitForFunction(() =>
+      document.querySelector(".showroom-ribbon g").transform.baseVal.consolidate().matrix.e === 0);
+    const stillOffset = await ribbonOffset();
+    await ribbon.scrollIntoViewIfNeeded();
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    check(await ribbonOffset() === stillOffset, "Ribbon stays still while scrolling with reduced motion");
     check(
       (await page
         .locator(".product-card")
