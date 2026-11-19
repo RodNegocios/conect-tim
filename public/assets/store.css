@@ -1529,6 +1529,9 @@ body {
   height: calc(100% - 64px);
   overflow: hidden;
 }
+@media (prefers-reduced-motion: no-preference) {
+  .showroom-ribbon g { transition: transform 160ms ease-out; }
+}
 .showroom-ribbon path { stroke: var(--offer-orange); stroke-width: clamp(20px, 2.1vw, 28px); }
 .showroom-ribbon text {
   fill: white;

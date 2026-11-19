@@ -24,7 +24,8 @@
     <svg class="showroom-ribbon" aria-hidden="true" focusable="false">
       <g>
         <path id="showroom-wave" fill="none"/>
-        <text dy=".35em"><textPath href="#showroom-wave"><?=str_repeat('BLACK FRIDAY　·　', 38)?></textPath></text>
+        <text dy=".35em"><textPath id="showroom-lettering" href="#showroom-wave">BLACK FRIDAY　·　</textPath></text>
+        <animate href="#showroom-lettering" attributeName="startOffset" from="0" to="0" dur="7s" repeatCount="indefinite"/>
       </g>
     </svg>
     <div id="showroom-media" class="showroom-media wrap" hidden></div>

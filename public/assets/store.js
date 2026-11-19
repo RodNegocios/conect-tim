@@ -103,20 +103,33 @@ function setupShowroomRibbon() {
   const wave = ribbon.querySelector("path");
   const lettering = ribbon.querySelector("textPath");
   const group = ribbon.querySelector("g");
+  const loop = ribbon.querySelector("animate");
+  const phrase = lettering.textContent;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let visible = false;
   let frame = 0;
 
-  function draw() {
+  function positionWave() {
     frame = 0;
     const bounds = ribbon.getBoundingClientRect();
-    const progress = Math.max(0, Math.min(1, (innerHeight - bounds.top) / (innerHeight + bounds.height)));
-    const phase = reduced.matches ? 0 : progress - 0.5;
-    group.setAttribute("transform", `translate(${phase * bounds.width * 0.09} 0)`);
-    lettering.setAttribute("startOffset", String(25 - phase * 128));
+    const progress = (innerHeight - bounds.top) / (innerHeight + bounds.height);
+    const phase = reduced.matches ? 0 : Math.max(0, Math.min(1, progress)) - 0.5;
+    group.setAttribute("transform", `translate(${phase * bounds.width * 0.12} ${phase * bounds.height * 0.12})`);
   }
   function schedule() {
-    if (visible && !reduced.matches && !frame) frame = requestAnimationFrame(draw);
+    if (visible && !document.hidden && !reduced.matches && !frame) frame = requestAnimationFrame(positionWave);
+  }
+  function syncMotion() {
+    if (visible && !document.hidden && !reduced.matches) {
+      ribbon.unpauseAnimations();
+      schedule();
+    } else {
+      ribbon.pauseAnimations();
+      if (reduced.matches) {
+        ribbon.setCurrentTime(0);
+        positionWave();
+      }
+    }
   }
   function fit() {
     const {width: w, height: h} = ribbon.getBoundingClientRect();
@@ -125,15 +138,26 @@ function setupShowroomRibbon() {
       C ${w * .02} ${h * .98}, ${w * .08} ${h * .15}, ${w * .29} ${h * .15}
       S ${w * .49} ${h * .83}, ${w * .69} ${h * .83}
       S ${w * .97} ${h * .14}, ${w * 1.22} ${h * .14}`);
-    draw();
+    // Advance exactly one phrase per cycle, including the separator and its spacing.
+    if (loop) {
+      lettering.textContent = phrase;
+      const advance = lettering.getComputedTextLength();
+      if (advance > 0) {
+        lettering.textContent = phrase.repeat(Math.ceil(wave.getTotalLength() / advance) + 2);
+        loop.setAttribute("to", String(-advance));
+      }
+    }
+    positionWave();
   }
+  ribbon.pauseAnimations();
   new ResizeObserver(fit).observe(ribbon);
   new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
-    schedule();
+    syncMotion();
   }).observe(ribbon);
   window.addEventListener("scroll", schedule, {passive: true});
-  reduced.addEventListener("change", draw);
+  reduced.addEventListener("change", syncMotion);
+  document.addEventListener("visibilitychange", syncMotion);
 }
 setupShowroomRibbon();
 function applySettings() {

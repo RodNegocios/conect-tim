@@ -168,16 +168,36 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
       "Available featured iPhones and the discounted test product carry Black Friday seals",
     );
     const ribbon = page.locator(".showroom-ribbon");
-    const ribbonOffset = () => ribbon.locator("textPath").getAttribute("startOffset");
-    await page.waitForSelector("#showroom-wave[d]", { state: "attached" });
+    const ribbonOffset = () => ribbon.locator("textPath").evaluate((text) => text.startOffset.animVal.value);
+    await ribbon.scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => document.querySelector(".showroom-ribbon animate").getAttribute("to") < 0);
     const initialOffset = await ribbonOffset();
-    await page.evaluate(() => window.scrollBy({ top: 180, behavior: "instant" }));
+    const initialScroll = await page.evaluate(() => scrollY);
+    await page.waitForFunction((offset) =>
+      document.querySelector(".showroom-ribbon textPath").startOffset.animVal.value !== offset, initialOffset);
+    check(await page.evaluate(() => scrollY) === initialScroll, "Ribbon runs while the page is stationary");
+    const seamError = await ribbon.evaluate((svg) => {
+      const text = svg.querySelector("textPath");
+      const period = text.textContent.indexOf("BLACK", 1);
+      svg.pauseAnimations();
+      svg.setCurrentTime(0);
+      const start = text.getStartPositionOfChar(2 * period);
+      svg.setCurrentTime(svg.querySelector("animate").getSimpleDuration() - 0.001);
+      const end = text.getStartPositionOfChar(3 * period);
+      svg.unpauseAnimations();
+      return Math.hypot(end.x - start.x, end.y - start.y);
+    });
+    check(seamError < 0.1, "Repeated lettering meets at the loop boundary");
+    const position = () => ribbon.locator("g").evaluate((g) => new DOMMatrix(getComputedStyle(g).transform).m41);
+    const origin = await position();
+    await page.mouse.wheel(0, 160);
     await page.waitForFunction((before) =>
-      document.querySelector(".showroom-ribbon textPath").getAttribute("startOffset") !== before, initialOffset);
-    check(Number(await ribbonOffset()) < Number(initialOffset), "Ribbon lettering tracks downward scroll");
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+      new DOMMatrix(getComputedStyle(document.querySelector(".showroom-ribbon g")).transform).m41 > before + 1, origin);
+    const shifted = await position();
+    await page.mouse.wheel(0, -160);
     await page.waitForFunction((before) =>
-      document.querySelector(".showroom-ribbon textPath").getAttribute("startOffset") === before, initialOffset);
+      new DOMMatrix(getComputedStyle(document.querySelector(".showroom-ribbon g")).transform).m41 < before - 0.5, shifted);
+    check(await position() < shifted, "Ribbon parallax follows the mouse wheel in both directions");
     check(await page.locator(".showroom-links .button, .offer-seal").evaluateAll((elements) =>
       elements.every((el) => getComputedStyle(el).backgroundImage === "none")), "Flat orange offer seals and hero button");
     for (const model of ["iPhone 14", "iPhone 15", "iPhone 17"]) {
