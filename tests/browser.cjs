@@ -157,26 +157,6 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
       (await page.locator(".product-card").count()) === 8,
       "Dynamic storefront catalog",
     );
-    const heroEffect = page.locator(".showroom-intro");
-    const topLoop = page.locator(".campaign-strip .text-loop");
-    const motionState = (element) =>
-      element.evaluate((el) => getComputedStyle(el, "::before").animationPlayState);
-    await page.locator(".showroom-intro.in-view").waitFor();
-    check(
-      await motionState(heroEffect) === "running" && await motionState(topLoop) === "running",
-      "Visible hero and Black Friday ribbon animate",
-    );
-    await page.getByRole("button", { name: "Pausar animações da campanha" }).click();
-    check(
-      await motionState(heroEffect) === "paused" && await motionState(topLoop) === "paused",
-      "Campaign control pauses both effects",
-    );
-    await page.getByRole("button", { name: "Retomar animações da campanha" }).click();
-    check(await motionState(topLoop) === "running", "Campaign ribbon resumes");
-    await page.locator("#contato").scrollIntoViewIfNeeded();
-    await page.waitForFunction(() => !document.querySelector(".showroom-intro").classList.contains("in-view"));
-    check(await motionState(heroEffect) === "paused", "Offscreen hero stops animating");
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
     const highlights = page.locator("#showroom-media .showroom-piece");
     check(
       (await highlights.allTextContents()).map((label) => label.trim()).join(",") === "iPhone 14,iPhone 15,iPhone 17",
@@ -337,12 +317,6 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
       });
     }
     await page.emulateMedia({ reducedMotion: "reduce" });
-    check(
-      await page.locator("[data-campaign-effect]").evaluateAll((effects) =>
-        effects.every((el) => getComputedStyle(el, "::before").animationName === "none")) &&
-        await page.locator(".motion-toggle").isHidden(),
-      "Reduced motion keeps the hero and all campaign ribbons static",
-    );
     check(
       (await page
         .locator(".product-card")

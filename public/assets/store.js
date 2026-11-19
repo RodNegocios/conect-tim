@@ -374,22 +374,3 @@ load()
     setText("#results", "Catálogo indisponível");
     $("#retry").onclick = () => location.reload();
   });
-
-// Keep decorative motion local to visible sections of the storefront.
-const motionToggle = $(".motion-toggle");
-if (motionToggle && "IntersectionObserver" in window) {
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) entry.target.classList.toggle("in-view", entry.isIntersecting);
-  });
-  document.querySelectorAll("[data-campaign-effect]").forEach((effect) => observer.observe(effect));
-  const updateVisibility = () => document.body.classList.toggle("campaign-hidden", document.hidden);
-  updateVisibility();
-  document.addEventListener("visibilitychange", updateVisibility);
-  motionToggle.hidden = false;
-  motionToggle.addEventListener("click", () => {
-    const paused = document.body.classList.toggle("campaign-paused");
-    const label = paused ? "Retomar animações da campanha" : "Pausar animações da campanha";
-    motionToggle.setAttribute("aria-label", label);
-    motionToggle.title = label;
-  });
-}
