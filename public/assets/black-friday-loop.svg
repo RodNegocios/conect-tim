@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 54" color="#f5e9e0" fill="currentColor">
+  <view id="paper" viewBox="0 -88 480 224"/>
+  <defs>
+    <path id="wave" d="M0 34 Q60 20 120 34 T240 34 T360 34 T480 34"/>
+  </defs>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" letter-spacing="1">
+    <text textLength="191" lengthAdjust="spacingAndGlyphs"><textPath href="#wave" startOffset="15">BLACK FRIDAY</textPath></text>
+    <text fill="none" stroke="currentColor" stroke-width=".9" textLength="191" lengthAdjust="spacingAndGlyphs"><textPath href="#wave" startOffset="257">BLACK FRIDAY</textPath></text>
+  </g>
+  <path d="m226 21 2.5 5.5L234 29l-5.5 2.5L226 37l-2.5-5.5L218 29l5.5-2.5z M466 21l2.5 5.5L474 29l-5.5 2.5L466 37l-2.5-5.5L458 29l5.5-2.5z"/>
+</svg>
