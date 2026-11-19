@@ -159,8 +159,13 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
     );
     const highlights = page.locator("#showroom-media .showroom-piece");
     check(
-      (await highlights.allTextContents()).map((label) => label.trim()).join(",") === "iPhone 14,iPhone 15,iPhone 17",
+      (await highlights.locator(".showroom-name").allTextContents()).map((label) => label.trim()).join(",") === "iPhone 14,iPhone 15,iPhone 17",
       "Home features the three iPhone models in order",
+    );
+    check(
+      (await highlights.locator(".offer-seal").count()) === 3 &&
+        (await page.locator(".product-card > .offer-seal").count()) === 4,
+      "Available featured iPhones and the discounted test product carry Black Friday seals",
     );
     for (const model of ["iPhone 14", "iPhone 15", "iPhone 17"]) {
       const highlight = highlights.filter({ hasText: model });
@@ -193,6 +198,11 @@ const base = process.env.TEST_BASE || "http://127.0.0.1:8081";
     check(
       (await page.locator("#product-title img").count()) === 0,
       "Product HTML is escaped",
+    );
+    check(
+      (await page.locator("#product-detail .offer-seal").textContent()) === "Black Friday" &&
+        await page.locator("#product-detail .detail-price del").isVisible(),
+      "Discounted product shows its seal alongside original and sale prices",
     );
     await page.locator("#add-form [name=variation-0]").selectOption("Preto");
     await page.locator("#add-form [name=variation-1]").selectOption("M");
